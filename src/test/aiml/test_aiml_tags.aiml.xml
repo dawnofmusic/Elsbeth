@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml xmlns="http://aitools.org/xaiml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://aitools.org/xaiml
+                          http://aitools.org/xaiml/xaiml0.xsd"
+	version="1.0.1">
+	<!-- 7.1.1 Star -->
+	<category>
+		<pattern>_ STAR *</pattern>
+		<template>
+			<star index="2" />
+			<star />
+		</template>
+	</category>
+	<!-- 7.1.6 Get -->
+	<category>
+		<pattern>GET</pattern>
+		<template>
+			<get name="PREDICATE_1_NAME" />
+		</template>
+	</category>
+	<!-- 7.1.6.1 Bot -->
+	<category>
+		<pattern>BOT</pattern>
+		<template>
+			<bot name="BOT_PROPERTY_1_NAME" />
+		</template>
+	</category>
+	<!-- 7.1.7 Short-cut elements -->
+	<category>
+		<pattern>SR *</pattern>
+		<template>
+			<sr />
+		</template>
+	</category>
+	<category>
+		<pattern>REQUEST</pattern>
+		<template>RESPONSE</template>
+	</category>
+	<category>
+		<pattern>PERSON2 *</pattern>
+		<template>
+			<person2 />
+		</template>
+	</category>
+	<category>
+		<pattern>PERSON *</pattern>
+		<template>
+			<person />
+		</template>
+	</category>
+	<category>
+		<pattern>GENDER *</pattern>
+		<template>
+			<gender />
+		</template>
+	</category>
+	<!-- 7.1.8 System-defined predicates -->
+	<category>
+		<pattern>DATE</pattern>
+		<template>
+			<date />
+		</template>
+	</category>
+	<category>
+		<pattern>ID</pattern>
+		<template>
+			<id />
+		</template>
+	</category>
+	<category>
+		<pattern>SIZE</pattern>
+		<template>
+			<size />
+		</template>
+	</category>
+	<category>
+		<pattern>VERSION</pattern>
+		<template>
+			<version />
+		</template>
+	</category>
+	<!-- 7.2.1 Uppercase -->
+	<category>
+		<pattern>UPPERCASE</pattern>
+		<template>
+			<uppercase>should be uppercase</uppercase>
+		</template>
+	</category>
+	<!-- 7.2.2 Lowercase -->
+	<category>
+		<pattern>LOWERCASE</pattern>
+		<template>
+			<lowercase>SHOULD BE LOWERCASE</lowercase>
+		</template>
+	</category>
+	<!-- 7.2.3 Formal -->
+	<category>
+		<pattern>FORMAL</pattern>
+		<template>
+			<formal>this is a house</formal>
+		</template>
+	</category>
+	<!-- 7.2.4 Sentence -->
+	<category>
+		<pattern>SENTENCE</pattern>
+		<template>
+			<sentence>this is an apple. this is a banana.</sentence>
+		</template>
+	</category>
+	<!-- 7.3.1 Condition -->
+	<!-- 7.3.1.1 Block Condition -->
+	<category>
+		<pattern>BLOCK CONDITION</pattern>
+		<template>
+			<condition name="PREDICATE_TRUE" value="TRUE">
+				TRUE
+			</condition>
+			<condition name="PREDICATE_FALSE" value="TRUE">
+				FALSE
+			</condition>
+		</template>
+	</category>
+	<!-- 7.3.1.2 Single-predicate Condition -->
+	<category>
+		<pattern>SINGLE-PREDICATE CONDITION</pattern>
+		<template>
+			<!-- not yet specified by alicebot.org! -->
+		</template>
+	</category>
+	<!-- 7.3.1.3 Multi-predicate Condition -->
+	<category>
+		<pattern>MULTI-PREDICATE CONDITION</pattern>
+		<template>
+			<!-- not yet specified by alicebot.org! -->
+		</template>
+	</category>
+	<!-- 7.3.2 RANDOM & LI -->
+	<category>
+		<pattern>RANDOM</pattern>
+		<template>
+			<random>
+				<li>ITEM 1</li>
+				<li>ITEM 2</li>
+				<li>ITEM 3</li>
+			</random>
+		</template>
+	</category>
+	<!-- 7.4.1 Set -->
+	<category>
+		<pattern>SET 1</pattern>
+		<template>
+			<set name="PREDICATE_SET_NAME">1</set>
+		</template>
+	</category>
+	<category>
+		<pattern>SET 2</pattern>
+		<template>
+			<set name="PREDICATE_SET_NAME">2</set>
+		</template>
+	</category>
+	<!-- 7.5.1 SRAI -->
+	<category>
+		<pattern>SRAI</pattern>
+		<template>
+			<srai>INNERSRAI</srai>
+		</template>
+	</category>
+	<category>
+		<pattern>INNERSRAI</pattern>
+		<template>SRAI RESULT</template>
+	</category>
+	<!-- 7.6.1 Person2 -->
+	<category>
+		<pattern>PERSON2</pattern>
+		<template>
+			<person2>I was listening.</person2>
+			<person2>He was listening.</person2>
+		</template>
+	</category>
+	<!-- 7.6.2 Person -->
+	<category>
+		<pattern>PERSON</pattern>
+		<template>
+			<person>I was listening.</person>
+			<person>You were listening.</person>
+		</template>
+	</category>
+	<!-- 7.6.3 Gender -->
+	<category>
+		<pattern>GENDER</pattern>
+		<template>
+			<person>She was listening.</person>
+			<person>He was listening.</person>
+		</template>
+	</category>
+	<!-- 7.7.1 Think -->
+	<category>
+		<pattern>THINK</pattern>
+		<template>
+			<think>
+				zdkxzjhfdj fdljdsf dsflijdsf dsflijjsdfsd sdfijdsf
+				sdfoijds dsfihhds
+				ijddas
+				<set name="PREDICATE_SET_NAME">DUMMY_VALUE</set>
+				asdkhjasd dkjsad asdkj sagdasd kjhsda
+				<version />
+				ewqjhe qwehqwe ewoiq
+			</think>
+		</template>
+	</category>
+	<!-- 7.7.2 Learn -->
+	<category>
+		<pattern>LEARN</pattern>
+		<template>
+			<learn>
+				src/test/aiml/to_be_learned.aiml.xml
+			</learn>
+		</template>
+	</category>
+
+</aiml>

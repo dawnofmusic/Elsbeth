@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml xmlns="http://aitools.org/xaiml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://aitools.org/xaiml
+                          http://aitools.org/xaiml/xaiml0.xsd"
+	version="1.0.1">
+	<category>
+		<pattern>HAVE YOU LEARNED ANYTHING</pattern>
+		<template>
+			Yes, I did! @@@IDENTIFIER@@@
+		</template>
+	</category>
+</aiml>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml xmlns="http://aitools.org/xaiml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://aitools.org/xaiml
+                          http://aitools.org/xaiml/xaiml0.xsd"
+	version="1.0.1">
+	<category>
+		<pattern>A</pattern>
+		<template>A RESULT</template>
+	</category>
+	<category>
+		<pattern>A B</pattern>
+		<template>A B RESULT</template>
+	</category>
+	<category>
+		<pattern>D E F</pattern>
+		<template>D E F RESULT</template>
+	</category>
+	<category>
+		<pattern>A _</pattern>
+		<template>A _ RESULT</template>
+	</category>
+	<category>
+		<pattern>A _ Z</pattern>
+		<template>A _ Z RESULT</template>
+	</category>
+	<category>
+		<pattern>_ QQQ</pattern>
+		<template>_ QQQ RESULT</template>
+	</category>
+	<category>
+		<pattern>A *</pattern>
+		<template>
+			A @@
+			<star />
+			@@ RESULT
+		</template>
+	</category>
+	<category>
+		<pattern>*</pattern>
+		<template>* RESULT</template>
+	</category>
+	<category>
+		<pattern>* X Y Z</pattern>
+		<template>* X Y Z RESULT</template>
+	</category>
+	<category>
+		<pattern>* X * Z</pattern>
+		<template>
+			* X @@
+			<star index="2" />
+			@@ Z RESULT
+		</template>
+	</category>
+	<category>
+		<pattern>H * J _ K _ L *</pattern>
+		<template>
+			H @@
+			<star />
+			@@ J @@
+			<star index="2" />
+			@@ K @@
+			<star index="3" />
+			@@ L @@
+			<star index="4" />
+			@@
+		</template>
+	</category>
+
+	<category>
+		<pattern>THAT FIRST INPUT</pattern>
+		<template>THAT FIRST INPUT THAT</template>
+	</category>
+	<category>
+		<pattern>THAT SECOND INPUT</pattern>
+		<template>I DO NOT KNOW WHAT THAT MEANS</template>
+	</category>
+	<category>
+		<pattern>THAT SECOND INPUT</pattern>
+		<that>THAT FIRST INPUT THAT</that>
+		<template>I KNOW WHAT THAT MEANS</template>
+	</category>
+	<category>
+		<pattern>THAT SECOND INPUT</pattern>
+		<that>ANOTHER THAT</that>
+		<template>I KNOW SOMETHING ELSE</template>
+	</category>
+
+</aiml>
