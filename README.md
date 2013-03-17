@@ -1,7 +1,7 @@
 Elsbeth
 =======
 
-Elsbeth is an AIML Interpreter Engine entirely written in Java. The current version at the moment is 0.9.0. 
+Elsbeth is an AIML (http://en.wikipedia.org/wiki/AIML) Interpreter Engine entirely written in Java. The current version at the moment is 0.9.0. 
 
 In version 1.0 it will be extended by own server capabilities (probably using netty).
 
