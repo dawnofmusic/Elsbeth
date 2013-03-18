@@ -50,7 +50,8 @@ public class AppTestBrain {
 	Logger.getRootLogger().setLevel(Level.DEBUG);
 
 	final DialogAgent da = new DialogAgent(Locale.US);
-	da.load(new File("../Scenejo__AIML/data/aaa/green/Atomic.aiml"), false);
+	da.load(new File("src/examples/aiml/aaa/green/Default.aiml.xml"), false);
+	da.load(new File("src/examples/aiml/aaa/green/Atomic.aiml.xml"), false);
 
 	ConsoleModel.initialize(true);
 
