@@ -1,20 +1,17 @@
-package de.wsdevel.elsbeth.evaluators;
+package de.wsdevel.elsbeth.evaluators.result;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import de.wsdevel.elsbeth.Match;
 
 /**
- * Created on 24.09.2008.
+ * Created on 24.09.2008 for project: Elsbeth
  * 
- * for project: Elsbeth
+ * (c) 2008, Sebastian A. Weiss - All rights reserved.
  * 
- * @author <a href="mailto:sweiss@weissundschmidt.de">Sebastian A. Weiss - Weiss
- *         und Schmidt, Mediale Systeme GbR</a>
+ * @author <a href="mailto:post@sebastian-weiss.de">Sebastian A. Weiss</a>
  * @version $Author: $ -- $Revision: $ -- $Date: $
- * 
- * <br>
- *          (c) 2007, Weiss und Schmidt, Mediale Systeme GbR - All rights
- *          reserved.
- * 
  */
 public class EvaluationResultImpl implements EvaluationResult {
 
@@ -29,11 +26,17 @@ public class EvaluationResultImpl implements EvaluationResult {
 	final EvaluationResultImpl evaluationResultImpl = new EvaluationResultImpl();
 	evaluationResultImpl.setText(base.getText() != null ? base.getText()
 		.trim() : null);
+	// SCENEJO
 	// evaluationResultImpl.setChangeScene(base.getChangeScene());
-	// evaluationResultImpl.getPredicateOperations().addAll(
-	// base.getPredicateOperations());
+	evaluationResultImpl.getPredicateOperations().addAll(
+		base.getPredicateOperations());
 	return evaluationResultImpl;
     }
+
+    /**
+     * {@link List}< {@link PredicateOperation}>
+     */
+    private List<PredicateOperation> predicateOperations = new LinkedList<PredicateOperation>();
 
     /**
      * {@link String} COMMENT.
@@ -47,11 +50,19 @@ public class EvaluationResultImpl implements EvaluationResult {
 
     /**
      * @return {@link Match} the originMatch.
-     * @see de.wsdevel.elsbeth.evaluators.EvaluationResult#getOriginMatch()
+     * @see de.wsdevel.elsbeth.evaluators.result.EvaluationResult#getOriginMatch()
      */
     @Override
     public final Match getOriginMatch() {
 	return this.originMatch;
+    }
+
+    /**
+     * @return the predicateOperations
+     */
+    @Override
+    public List<PredicateOperation> getPredicateOperations() {
+	return this.predicateOperations;
     }
 
     /**
@@ -70,9 +81,10 @@ public class EvaluationResultImpl implements EvaluationResult {
      */
     public final void integrate(final EvaluationResult toBeIntegrated) {
 	integrateText(toBeIntegrated.getText());
+	// SCENEJO
 	// setChangeScene(toBeIntegrated.getChangeScene());
-	// getPredicateOperations()
-	// .addAll(toBeIntegrated.getPredicateOperations());
+	getPredicateOperations()
+		.addAll(toBeIntegrated.getPredicateOperations());
     }
 
     /**
@@ -96,6 +108,15 @@ public class EvaluationResultImpl implements EvaluationResult {
     }
 
     /**
+     * @param predicateOperations
+     *            the predicateOperations to set
+     */
+    public void setPredicateOperations(
+	    final List<PredicateOperation> predicateOperations) {
+	this.predicateOperations = predicateOperations;
+    }
+
+    /**
      * @param text
      *            {@link String} the text to set.
      */
@@ -111,13 +132,15 @@ public class EvaluationResultImpl implements EvaluationResult {
      */
     @Override
     public final String toString() {
-	return getClass().getSimpleName() + " [text: '" + getText()
-	// + "', operations count: "
-	// + (getPredicateOperations() != null ? getPredicateOperations()
-	// .size() : "")
-	// + ", changeScene: "
-	// + (getChangeScene() != null ? getChangeScene().getSceneName()
-	// : "")
+	return getClass().getSimpleName()
+		+ " [text: '"
+		+ getText()
+		+ "', operations count: "
+		+ (getPredicateOperations() != null ? getPredicateOperations()
+			.size() : "")
+		// + ", changeScene: "
+		// + (getChangeScene() != null ? getChangeScene().getSceneName()
+		// : "")
 		+ "]";
     }
 

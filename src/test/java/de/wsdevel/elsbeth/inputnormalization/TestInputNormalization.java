@@ -10,8 +10,6 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import de.wsdevel.elsbeth.inputnormalization.InputNormalizationService;
-
 /**
  * Created on 17.09.2008.
  * 
@@ -48,6 +46,18 @@ public class TestInputNormalization extends TestCase {
 	super(name);
     }
 
+    private void compareResults(final Collection<String> wordsForPattern,
+	    final String[] expectedWords) {
+	final String[] patternWordsForCategory = new ArrayList<String>(
+		wordsForPattern).toArray(new String[] {});
+	// assertEquals("not the correct size", expectedWords.length,
+	// patternWordsForCategory.length);
+	for (int i = 0; i < patternWordsForCategory.length; i++) {
+	    assertEquals("not the expected word", expectedWords[i],
+		    patternWordsForCategory[i]);
+	}
+    }
+
     /**
      * {@inheritDoc}
      * 
@@ -62,11 +72,14 @@ public class TestInputNormalization extends TestCase {
     /**
      * COMMENT.
      */
-    public void testPatternSplitting() {
+    public void testBasisDENormalization() {
 	compareResults(
-		new InputNormalizationService(Locale.UK)
-			.getWordsForPattern(TestInputNormalization.EIN_SATZ_MIT_UNNOETIGEN_LEHRZEICHEN),
-		TestInputNormalization.WORDS);
+		new InputNormalizationService(Locale.GERMANY)
+			.getWordsForPattern(" :-) Aufs dach und vorm zelt und meine webseite lautet http://www.sebastian-a-weiss.de:80!"),
+		new String[] { "AUF", "DAS", "DACH", "UND", "VOR", "DEM",
+			"ZELT", "UND", "MEINE", "WEBSEITE", "LAUTET", "HTTP",
+			"WWW", "PUNKT", "SEBASTIAN", "MINUS", "A", "MINUS",
+			"WEISS", "PUNKT", "DE", "PORT", "80" });
     }
 
     /**
@@ -98,26 +111,11 @@ public class TestInputNormalization extends TestCase {
     /**
      * COMMENT.
      */
-    public void testBasisDENormalization() {
+    public void testPatternSplitting() {
 	compareResults(
-		new InputNormalizationService(Locale.GERMANY)
-			.getWordsForPattern(" :-) Aufs dach und vorm zelt und meine webseite lautet http://www.sebastian-a-weiss.de:80!"),
-		new String[] { "AUF", "DAS", "DACH", "UND", "VOR", "DEM",
-			"ZELT", "UND", "MEINE", "WEBSEITE", "LAUTET", "HTTP",
-			"WWW", "PUNKT", "SEBASTIAN", "MINUS", "A", "MINUS",
-			"WEISS", "PUNKT", "DE", "PORT", "80" });
-    }
-
-    private void compareResults(Collection<String> wordsForPattern,
-	    String[] expectedWords) {
-	final String[] patternWordsForCategory = new ArrayList<String>(
-		wordsForPattern).toArray(new String[] {});
-	// assertEquals("not the correct size", expectedWords.length,
-	// patternWordsForCategory.length);
-	for (int i = 0; i < patternWordsForCategory.length; i++) {
-	    assertEquals("not the expected word", expectedWords[i],
-		    patternWordsForCategory[i]);
-	}
+		new InputNormalizationService(Locale.UK)
+			.getWordsForPattern(TestInputNormalization.EIN_SATZ_MIT_UNNOETIGEN_LEHRZEICHEN),
+		TestInputNormalization.WORDS);
     }
 
 }

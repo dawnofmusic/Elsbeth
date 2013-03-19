@@ -56,9 +56,10 @@ public class DE_AbbreviationSubstitutionNormalizer implements InputNormalizer {
      * @return {@link String}[]
      * @see de.wsdevel.elsbeth.inputnormalization.InputNormalizer#normalizeInput(java.lang.String[])
      */
-    public Collection<String> normalizeInput(Collection<String> input) {
-	return SubstitutionNormalizerHelper
-		.normalizeInput(substitutions, input);
+    @Override
+    public Collection<String> normalizeInput(final Collection<String> input) {
+	return SubstitutionNormalizerHelper.normalizeInput(
+		DE_AbbreviationSubstitutionNormalizer.substitutions, input);
     }
 
 }

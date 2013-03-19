@@ -61,15 +61,15 @@ public class AppTestBrain {
 	panel.add(textField,
 		new GBC().pos(0, 0).fillHorizontal(1.0).insets(10, 10, 10, 0));
 	panel.add(new JButton(new AbstractAction("Send") {
+	    @Override
 	    public void actionPerformed(final ActionEvent arg0) {
 		final String request = textField.getText().trim();
 		System.out.println("[REQUEST:] " + request);
 		System.out.println("[RESPONSE:] "
-			+ da.getResponseForRequest(request));// TODO
-		// remove
-		// sysout
+			+ da.getResponseForRequest(request));
 		textField.setText("");
 	    }
+
 	}), new GBC().pos(1, 0).insets(10, 10, 10, 10));
 
 	panel.add(new JScrollPane(new JConsolePane()), new GBC().pos(0, 1)

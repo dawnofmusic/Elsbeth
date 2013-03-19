@@ -3,6 +3,7 @@ package de.wsdevel.elsbeth.evaluators;
 import org.apache.xmlbeans.XmlObject;
 
 import de.wsdevel.elsbeth.Match;
+import de.wsdevel.elsbeth.evaluators.result.EvaluationResult;
 
 /**
  * Created on 15.08.2008.

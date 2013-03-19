@@ -56,7 +56,7 @@ public class UK_US_WebAddressSubstitutionNormalizer implements InputNormalizer {
 			output.add(split2[1]);
 		    } else {
 			if (e.contains("-")) {
-			    String[] split2 = e.split("\\-");
+			    final String[] split2 = e.split("\\-");
 			    for (int j = 0; j < split2.length; j++) {
 				output.add(split2[j]);
 				if (j < split2.length - 1) {
@@ -84,6 +84,7 @@ public class UK_US_WebAddressSubstitutionNormalizer implements InputNormalizer {
      * @return {@link String}[]
      * @see de.wsdevel.elsbeth.inputnormalization.InputNormalizer#normalizeInput(java.lang.String[])
      */
+    @Override
     public Collection<String> normalizeInput(final Collection<String> input) {
 	return normalizeInput(input, "DOT", "MINUS", "PORT");
     }

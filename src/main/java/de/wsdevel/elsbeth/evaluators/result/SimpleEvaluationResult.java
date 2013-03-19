@@ -1,18 +1,12 @@
-package de.wsdevel.elsbeth.evaluators;
+package de.wsdevel.elsbeth.evaluators.result;
 
 /**
- * Created on 24.09.2008.
+ * Created on 24.09.2008 for project: Elsbeth
  * 
- * for project: Elsbeth
+ * (c) 2008, Sebastian A. Weiss - All rights reserved.
  * 
- * @author <a href="mailto:sweiss@weissundschmidt.de">Sebastian A. Weiss - Weiss
- *         und Schmidt, Mediale Systeme GbR</a>
+ * @author <a href="mailto:post@sebastian-weiss.de">Sebastian A. Weiss</a>
  * @version $Author: $ -- $Revision: $ -- $Date: $
- * 
- * <br>
- *          (c) 2007, Weiss und Schmidt, Mediale Systeme GbR - All rights
- *          reserved.
- * 
  */
 public class SimpleEvaluationResult extends EvaluationResultImpl implements
 	EvaluationResult {

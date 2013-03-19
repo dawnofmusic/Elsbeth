@@ -2,7 +2,6 @@ package de.wsdevel.elsbeth.inputnormalization.sentencesplitting;
 
 import java.util.Collection;
 
-
 import de.wsdevel.elsbeth.inputnormalization.DoNothingInputNormalizer;
 import de.wsdevel.elsbeth.inputnormalization.InputNormalizer;
 
@@ -29,6 +28,7 @@ public class SentenceSplittingInputNormalizer implements InputNormalizer {
      * @return
      * @see de.wsdevel.elsbeth.inputnormalization.InputNormalizer#normalizeInput(java.util.Collection)
      */
+    @Override
     public Collection<String> normalizeInput(final Collection<String> input) {
 	// SEBASTIAN implement
 	return DoNothingInputNormalizer.INSTANCE.normalizeInput(input);

@@ -28,20 +28,19 @@ import de.wsdevel.elsbeth.DialogAgent;
 import de.wsdevel.elsbeth.Match;
 import de.wsdevel.elsbeth.aiml.AimlTags;
 import de.wsdevel.elsbeth.content.Content;
+import de.wsdevel.elsbeth.evaluators.result.EvaluationResult;
+import de.wsdevel.elsbeth.evaluators.result.EvaluationResultImpl;
+import de.wsdevel.elsbeth.evaluators.result.Operator;
+import de.wsdevel.elsbeth.evaluators.result.PredicateOperation;
+import de.wsdevel.elsbeth.evaluators.result.SimpleEvaluationResult;
 
 /**
- * Created on 15.08.2008.
+ * Created on 15.08.2008 for project: Elsbeth
  * 
- * for project: Elsbeth
+ * (c) 2007, Sebastian A. Weiss - All rights reserved.
  * 
- * @author <a href="mailto:sweiss@weissundschmidt.de">Sebastian A. Weiss - Weiss
- *         und Schmidt, Mediale Systeme GbR</a>
+ * @author <a href="mailto:post@sebastian-weiss.de">Sebastian A. Weiss</a>
  * @version $Author: $ -- $Revision: $ -- $Date: $
- * 
- * <br>
- *          (c) 2007, Weiss und Schmidt, Mediale Systeme GbR - All rights
- *          reserved.
- * 
  */
 public class Evaluators implements Evaluator<XmlObject> {
 
@@ -191,6 +190,7 @@ public class Evaluators implements Evaluator<XmlObject> {
 	this.evaluators.put(RandomImpl.class, createRandomEvaluator());
 	this.evaluators.put(XmlAnyTypeImpl.class,
 		new Evaluator<XmlAnyTypeImpl>() {
+		    @Override
 		    public EvaluationResult evaluate(final XmlAnyTypeImpl xml,
 			    final String tagName, final Match match)
 			    throws EvaluationException {
@@ -215,8 +215,9 @@ public class Evaluators implements Evaluator<XmlObject> {
 				    throw new EvaluationException(
 					    "No words captured due to wildcards!");
 				}
-				return agent.getResponseForRequest(match
-					.getCapturedWords().get(0));
+				return agent
+					.getEvaluationResultForRequest(match
+						.getCapturedWords().get(0));
 			    }
 			}
 			return Evaluators.EMPTY_EVALUATION_RESULT;
@@ -439,9 +440,27 @@ public class Evaluators implements Evaluator<XmlObject> {
     // };
     // }
 
+    private Evaluator<MixedTemplateContentContainerImpl.ConditionImpl> createAIMLConditionEvaluator(
+	    final DialogAgent agent) {
+	return new Evaluator<MixedTemplateContentContainerImpl.ConditionImpl>() {
+	    @Override
+	    public EvaluationResult evaluate(
+		    final MixedTemplateContentContainerImpl.ConditionImpl xml,
+		    final String tagName, final Match match)
+		    throws EvaluationException {
+		if (aimlConditionIsFullfilled(xml, agent)) {
+		    return evaluateMixedContent(xml, match);
+		}
+		return Evaluators.EMPTY_EVALUATION_RESULT;
+	    }
+
+	};
+    }
+
     private Evaluator<BotPredicateImpl> createBotPredicateEvaluator(
 	    final DialogAgent agent) {
 	return new Evaluator<BotPredicateImpl>() {
+	    @Override
 	    public EvaluationResult evaluate(final BotPredicateImpl xml,
 		    final String tagName, final Match match)
 		    throws EvaluationException {
@@ -453,22 +472,6 @@ public class Evaluators implements Evaluator<XmlObject> {
 		}
 		return new SimpleEvaluationResult(string);
 	    }
-	};
-    }
-
-    private Evaluator<MixedTemplateContentContainerImpl.ConditionImpl> createAIMLConditionEvaluator(
-	    final DialogAgent agent) {
-	return new Evaluator<MixedTemplateContentContainerImpl.ConditionImpl>() {
-	    public EvaluationResult evaluate(
-		    final MixedTemplateContentContainerImpl.ConditionImpl xml,
-		    final String tagName, final Match match)
-		    throws EvaluationException {
-		if (aimlConditionIsFullfilled(xml, agent)) {
-		    return evaluateMixedContent(xml, match);
-		}
-		return Evaluators.EMPTY_EVALUATION_RESULT;
-	    }
-
 	};
     }
 
@@ -490,6 +493,7 @@ public class Evaluators implements Evaluator<XmlObject> {
 
     private Evaluator<GetImpl> createGetEvaluator(final DialogAgent agent) {
 	return new Evaluator<GetImpl>() {
+	    @Override
 	    public EvaluationResult evaluate(final GetImpl xml,
 		    final String tagName, final Match match)
 		    throws EvaluationException {
@@ -509,6 +513,7 @@ public class Evaluators implements Evaluator<XmlObject> {
 
     private Evaluator<IndexedElementImpl> createIndexedElementEvaluator() {
 	return new Evaluator<IndexedElementImpl>() {
+	    @Override
 	    public EvaluationResult evaluate(final IndexedElementImpl xml,
 		    final String tagName, final Match match)
 		    throws EvaluationException {
@@ -541,6 +546,7 @@ public class Evaluators implements Evaluator<XmlObject> {
 
     private Evaluator<LearnImpl> createLearnEvaluator(final DialogAgent agent) {
 	return new Evaluator<LearnImpl>() {
+	    @Override
 	    public EvaluationResult evaluate(final LearnImpl xml,
 		    final String tagName, final Match match)
 		    throws EvaluationException {
@@ -567,6 +573,7 @@ public class Evaluators implements Evaluator<XmlObject> {
     private Evaluator<MixedTemplateContentContainerImpl> createMixedTemplateContentContainerEvaluator(
 	    final DialogAgent agent) {
 	return new Evaluator<MixedTemplateContentContainerImpl>() {
+	    @Override
 	    public EvaluationResult evaluate(
 		    final MixedTemplateContentContainerImpl xml,
 		    final String tagName, final Match match)
@@ -575,8 +582,9 @@ public class Evaluators implements Evaluator<XmlObject> {
 			xml, match);
 		if (tagName != null) {
 		    if (tagName.equals(AimlTags.SRAI)) {
-			return agent.getResponseForRequest(evaluateMixedContent
-				.getText());
+			return agent
+				.getEvaluationResultForRequest(evaluateMixedContent
+					.getText());
 		    } else if (tagName.equals(AimlTags.UPPERCASE)) {
 			// SEBASTIAN better integrate results!
 			return new SimpleEvaluationResult(evaluateMixedContent
@@ -675,6 +683,9 @@ public class Evaluators implements Evaluator<XmlObject> {
 	};
     }
 
+    /**
+     * @return {@link Evaluator}< {@link RandomImpl}>
+     */
     private Evaluator<RandomImpl> createRandomEvaluator() {
 	return new Evaluator<RandomImpl>() {
 
@@ -682,6 +693,7 @@ public class Evaluators implements Evaluator<XmlObject> {
 
 	    private final Random randomizer = new Random();
 
+	    @Override
 	    public EvaluationResult evaluate(final RandomImpl xml,
 		    final String tagName, final Match match)
 		    throws EvaluationException {
@@ -710,32 +722,24 @@ public class Evaluators implements Evaluator<XmlObject> {
 	};
     }
 
+    /**
+     * @return {@link Evaluator}< {@link SetImpl}>
+     */
     private Evaluator<SetImpl> createSetEvaluator() {
 	return new Evaluator<SetImpl>() {
+	    @Override
 	    public EvaluationResult evaluate(final SetImpl xml,
 		    final String tagName, final Match match)
 		    throws EvaluationException {
 		if (xml.isSetName()) {
 		    final EvaluationResult result = evaluateMixedContent(xml,
 			    match);
-
-		    // SCENEJO
-		    // SEBASTIAN in scenejo we would return the predicate
-		    // operation and do not set the property directly
-
-		    // final PredicateOperation op = PredicateOperation.Factory
-		    // .newInstance();
-		    // op.setPredicateName(xml.getName());
-		    // op.setOperator(Operator.ASSIGNMENT
-		    // .getStringRepresentation());
-		    // op.setValue(result.getText());
-
 		    final EvaluationResultImpl copy = EvaluationResultImpl
 			    .copy(result);
-		    // copy.getPredicateOperations().add(op);
-
-		    // SEBASTIAN implement setting the predicate directly
-
+		    copy.getPredicateOperations().add(
+			    new PredicateOperation(xml.getName(), Operator.SET,
+				    result.getText() != null ? result.getText()
+					    .trim() : ""));
 		    return copy;
 		}
 		return Evaluators.EMPTY_EVALUATION_RESULT;
@@ -743,6 +747,14 @@ public class Evaluators implements Evaluator<XmlObject> {
 	};
     }
 
+    /**
+     * @param content
+     *            {@link Content}
+     * @param match
+     *            {@link Match}
+     * @return {@link EvaluationResult}
+     * @throws EvaluationException
+     */
     public EvaluationResult evaluate(final Content content, final Match match)
 	    throws EvaluationException {
 	return content.evaluate(this, match);
@@ -755,6 +767,7 @@ public class Evaluators implements Evaluator<XmlObject> {
      * 
      * @see de.wsdevel.elsbeth.evaluators.Evaluator#evaluate(org.apache.xmlbeans.XmlObject)
      */
+    @Override
     @SuppressWarnings("unchecked")
     public final EvaluationResult evaluate(final XmlObject xml,
 	    final String tagName, final Match match) throws EvaluationException {

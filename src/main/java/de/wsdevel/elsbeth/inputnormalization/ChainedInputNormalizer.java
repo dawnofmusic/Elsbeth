@@ -2,7 +2,6 @@ package de.wsdevel.elsbeth.inputnormalization;
 
 import java.util.Collection;
 
-
 /**
  * ChainedInputNormalizer created on 22.10.2011 in project Elsbeth.
  * 
@@ -64,6 +63,7 @@ public class ChainedInputNormalizer implements InputNormalizer {
      * @return {@link Collection}< {@link String}>
      * @see de.wsdevel.elsbeth.inputnormalization.InputNormalizer#normalizeInput(java.util.Collection)
      */
+    @Override
     public Collection<String> normalizeInput(final Collection<String> input) {
 	if (this.second != null) {
 	    if (this.first != null) {

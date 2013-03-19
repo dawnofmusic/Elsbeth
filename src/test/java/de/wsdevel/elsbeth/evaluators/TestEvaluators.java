@@ -12,20 +12,16 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import de.wsdevel.elsbeth.DialogAgent;
+import de.wsdevel.elsbeth.evaluators.result.EvaluationResult;
+import de.wsdevel.elsbeth.evaluators.result.PredicateOperation;
 
 /**
- * Created on 15.08.2008.
+ * Created on 15.08.2008 for project: Elsbeth
  * 
- * for project: Elsbeth
+ * (c) 2008, Sebastian A. Weiss - All rightsreserved.
  * 
- * @author <a href="mailto:sweiss@weissundschmidt.de">Sebastian A. Weiss - Weiss
- *         und Schmidt, Mediale Systeme GbR</a>
+ * @author <a href="mailto:post@sebastian-weiss.de">Sebastian A. Weiss</a>
  * @version $Author: $ -- $Revision: $ -- $Date: $
- * 
- * <br>
- *          (c) 2007, Weiss und Schmidt, Mediale Systeme GbR - All rights
- *          reserved.
- * 
  */
 public class TestEvaluators extends TestCase {
 
@@ -38,6 +34,7 @@ public class TestEvaluators extends TestCase {
     private static final Log LOG = LogFactory.getLog(TestEvaluators.class);
     private static final String PREDICATE_1_NAME = "PREDICATE_1_NAME";
     private static final String PREDICATE_1_VALUE = "PREDICATE_1_VALUE";
+    @SuppressWarnings("unused")
     private static final String PREDICATE_DUMMY_VALUE = "DUMMY_VALUE";
     private static final String PREDICATE_FALSE = "PREDICATE_FALSE";
     @SuppressWarnings("unused")
@@ -71,19 +68,21 @@ public class TestEvaluators extends TestCase {
     }
 
     public final void testBlockCondition() {
-	final String response = this.da
-		.getResponseForRequest("BLOCK CONDITION").getText();
+	final String response = this.da.getEvaluationResultForRequest(
+		"BLOCK CONDITION").getText();
 	assertEquals("invalid response!", "TRUE", response);
     }
 
     public final void testBot() {
-	final String response = this.da.getResponseForRequest("BOT").getText();
+	final String response = this.da.getEvaluationResultForRequest("BOT")
+		.getText();
 	assertEquals("invalid value!", TestEvaluators.BOT_PROPERTY_1_VALUE,
 		response);
     }
 
     public final void testDate() {
-	final String response = this.da.getResponseForRequest("DATE").getText();
+	final String response = this.da.getEvaluationResultForRequest("DATE")
+		.getText();
 	if (TestEvaluators.LOG.isDebugEnabled()) {
 	    TestEvaluators.LOG.debug("date response: " + response);
 	}
@@ -91,7 +90,7 @@ public class TestEvaluators extends TestCase {
     }
 
     public final void testFormal() {
-	final String response = this.da.getResponseForRequest("FORMAL")
+	final String response = this.da.getEvaluationResultForRequest("FORMAL")
 		.getText();
 	assertEquals("all words should be capatalized!", "This Is A House",
 		response);
@@ -113,13 +112,15 @@ public class TestEvaluators extends TestCase {
     // }
 
     public final void testGet() {
-	final String response = this.da.getResponseForRequest("GET").getText();
+	final String response = this.da.getEvaluationResultForRequest("GET")
+		.getText();
 	assertEquals("invalid value!", TestEvaluators.PREDICATE_1_VALUE,
 		response);
     }
 
     public final void testId() {
-	final String response = this.da.getResponseForRequest("ID").getText();
+	final String response = this.da.getEvaluationResultForRequest("ID")
+		.getText();
 	if (TestEvaluators.LOG.isDebugEnabled()) {
 	    TestEvaluators.LOG.debug("id response: " + response);
 	}
@@ -127,24 +128,25 @@ public class TestEvaluators extends TestCase {
     }
 
     public final void testJavascript() {
-	final String response = this.da.getResponseForRequest("JAVASCRIPT")
-		.getText();
+	final String response = this.da.getEvaluationResultForRequest(
+		"JAVASCRIPT").getText();
 	// return result script!
 	assertEquals("invalid response!", "", response);
     }
 
     public final void testLearn() {
-	String response = this.da.getResponseForRequest("LEARN").getText();
-	assertEquals("reponse should be empty!", null, response);
-	response = this.da.getResponseForRequest("HAVE YOU LEARNED ANYTHING")
+	String response = this.da.getEvaluationResultForRequest("LEARN")
 		.getText();
+	assertEquals("reponse should be empty!", null, response);
+	response = this.da.getEvaluationResultForRequest(
+		"HAVE YOU LEARNED ANYTHING").getText();
 	assertEquals("invalid response!", "Yes, I did! @@@IDENTIFIER@@@",
 		response);
     }
 
     public final void testLowercase() {
-	final String response = this.da.getResponseForRequest("LOWERCASE")
-		.getText();
+	final String response = this.da.getEvaluationResultForRequest(
+		"LOWERCASE").getText();
 	assertEquals("all characters should be lowercase!",
 		"should be lowercase", response);
     }
@@ -185,86 +187,79 @@ public class TestEvaluators extends TestCase {
 	validResponse.add("ITEM 2");
 	validResponse.add("ITEM 3");
 
-	String response = this.da.getResponseForRequest("RANDOM").getText();
+	String response = this.da.getEvaluationResultForRequest("RANDOM")
+		.getText();
 	assertTrue("invalid response!", validResponse.contains(response));
 	validResponse.remove(response);
-	LOG.debug("valid responses " + validResponse);
+	TestEvaluators.LOG.debug("valid responses " + validResponse);
 
-	response = this.da.getResponseForRequest("RANDOM").getText();
+	response = this.da.getEvaluationResultForRequest("RANDOM").getText();
 	assertTrue("invalid response!", validResponse.contains(response));
 	validResponse.remove(response);
-	LOG.debug("valid responses " + validResponse);
+	TestEvaluators.LOG.debug("valid responses " + validResponse);
 
-	response = this.da.getResponseForRequest("RANDOM").getText();
+	response = this.da.getEvaluationResultForRequest("RANDOM").getText();
 	assertTrue("invalid response!", validResponse.contains(response));
 	validResponse.remove(response);
-	LOG.debug("valid responses " + validResponse);
+	TestEvaluators.LOG.debug("valid responses " + validResponse);
 
 	validResponse.add("ITEM 1");
 	validResponse.add("ITEM 2");
 	validResponse.add("ITEM 3");
-	LOG.debug("valid responses " + validResponse);
+	TestEvaluators.LOG.debug("valid responses " + validResponse);
 
-	response = this.da.getResponseForRequest("RANDOM").getText();
+	response = this.da.getEvaluationResultForRequest("RANDOM").getText();
 	assertTrue("invalid response!", validResponse.contains(response));
 	validResponse.remove(response);
-	LOG.debug("valid responses " + validResponse);
+	TestEvaluators.LOG.debug("valid responses " + validResponse);
     }
 
     public final void testSentence() {
-	final String response = this.da.getResponseForRequest("SENTENCE")
-		.getText();
+	final String response = this.da.getEvaluationResultForRequest(
+		"SENTENCE").getText();
 	assertEquals("first word should be capatalized!",
 		"This is an apple. This is a banana.", response);
     }
 
+    /**
+     * tests setting value of predicate.
+     */
     public final void testSet() {
-	EvaluationResult response = this.da.getResponseForRequest("SET 1");
+	EvaluationResult response = this.da
+		.getEvaluationResultForRequest("SET 1");
 	assertEquals("response should be 1!", "1", response.getText());
 
-	// SEBASTIAN implement setting of real predicate values
-	// SCENEJO
-	// assertEquals("should contain one operation", 1, response
-	// .getPredicateOperations().size());
-	// PredicateOperation op = response.getPredicateOperations().get(0);
-	// assertEquals(
-	// "set should be 1!",
-	// "1",
-	// Operator.getOperatorForString(op.getOperator()).doIt(
-	// this.da.getPredicateValue(op.getPredicateName()),
-	// op.getValue()));
+	assertEquals("should contain one operation", 1, response
+		.getPredicateOperations().size());
+	PredicateOperation op = response.getPredicateOperations().get(0);
+	op.execute(da);
+	assertEquals("set should be 1!", "1",
+		da.getPredicateValue(op.getPredicateName()));
 
-	response = this.da.getResponseForRequest("SET 2");
+	response = this.da.getEvaluationResultForRequest("SET 2");
 	assertEquals("response should be 2!", "2", response.getText());
 
-	// SCENEJO
-	// assertEquals("should contain one operation", 1, response
-	// .getPredicateOperations().size());
-	// op = response.getPredicateOperations().get(0);
-	// assertEquals(
-	// "set should be 2!",
-	// "2",
-	// Operator.getOperatorForString(op.getOperator()).doIt(
-	// this.da.getPredicateValue(op.getPredicateName()),
-	// op.getValue()));
+	assertEquals("should contain one operation", 1, response
+		.getPredicateOperations().size());
+	op = response.getPredicateOperations().get(0);
+	op.execute(da);
+	assertEquals("set should be 2!", "2",
+		da.getPredicateValue(op.getPredicateName()));
 
-	response = this.da.getResponseForRequest("SET 1");
+	response = this.da.getEvaluationResultForRequest("SET 1");
 	assertEquals("response should be 1!", "1", response.getText());
 
-	// SCENEJO
-	// assertEquals("should contain one operation", 1, response
-	// .getPredicateOperations().size());
-	// op = response.getPredicateOperations().get(0);
-	// assertEquals(
-	// "set should be 1!",
-	// "1",
-	// Operator.getOperatorForString(op.getOperator()).doIt(
-	// this.da.getPredicateValue(op.getPredicateName()),
-	// op.getValue()));
+	assertEquals("should contain one operation", 1, response
+		.getPredicateOperations().size());
+	op = response.getPredicateOperations().get(0);
+	op.execute(da);
+	assertEquals("set should be 1!", "1",
+		da.getPredicateValue(op.getPredicateName()));
     }
 
     public final void testSize() {
-	final String response = this.da.getResponseForRequest("SIZE").getText();
+	final String response = this.da.getEvaluationResultForRequest("SIZE")
+		.getText();
 	if (TestEvaluators.LOG.isDebugEnabled()) {
 	    TestEvaluators.LOG.debug("size response: " + response);
 	}
@@ -273,24 +268,25 @@ public class TestEvaluators extends TestCase {
     }
 
     public final void testSR() {
-	final String response = this.da.getResponseForRequest("SR REQUEST")
-		.getText();
+	final String response = this.da.getEvaluationResultForRequest(
+		"SR REQUEST").getText();
 	assertEquals("invalid response!", "RESPONSE", response);
     }
 
     public final void testSRAI() {
-	final String response = this.da.getResponseForRequest("SRAI").getText();
+	final String response = this.da.getEvaluationResultForRequest("SRAI")
+		.getText();
 	assertEquals("invalid response!", "SRAI RESULT", response);
     }
 
     public final void testStar() {
-	final String response = this.da.getResponseForRequest(
+	final String response = this.da.getEvaluationResultForRequest(
 		"ZYXXYZ STAR XYZZYX").getText();
 	assertEquals("invalid response!", "XYZZYX ZYXXYZ", response);
     }
 
     public final void testSystem() {
-	final String response = this.da.getResponseForRequest("SYSTEM")
+	final String response = this.da.getEvaluationResultForRequest("SYSTEM")
 		.getText();
 	// return result of system call!
 	assertEquals("invalid response!", "", response);
@@ -298,7 +294,7 @@ public class TestEvaluators extends TestCase {
 
     public final void testThink() {
 	final EvaluationResult response = this.da
-		.getResponseForRequest("THINK");
+		.getEvaluationResultForRequest("THINK");
 	assertEquals("invalid response!", null, response.getText());
 
 	// SCENEJO
@@ -315,15 +311,15 @@ public class TestEvaluators extends TestCase {
     }
 
     public final void testUppercase() {
-	final String response = this.da.getResponseForRequest("UPPERCASE")
-		.getText();
+	final String response = this.da.getEvaluationResultForRequest(
+		"UPPERCASE").getText();
 	assertEquals("all characters should be uppercase!",
 		"SHOULD BE UPPERCASE", response);
     }
 
     public final void testVersion() {
-	final String response = this.da.getResponseForRequest("VERSION")
-		.getText();
+	final String response = this.da
+		.getEvaluationResultForRequest("VERSION").getText();
 	assertEquals("bad version!", DialogAgent.VERSION, response);
     }
 

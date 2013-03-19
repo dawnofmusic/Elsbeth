@@ -7,8 +7,8 @@ import org.apache.lucene.document.Document;
 
 import de.wsdevel.elsbeth.Match;
 import de.wsdevel.elsbeth.evaluators.EvaluationException;
-import de.wsdevel.elsbeth.evaluators.EvaluationResult;
 import de.wsdevel.elsbeth.evaluators.Evaluators;
+import de.wsdevel.elsbeth.evaluators.result.EvaluationResult;
 
 /**
  * Created on 01.11.2010 for project: Elsbeth. (c) 2010, Sebastian A. Weiss -
@@ -20,9 +20,12 @@ import de.wsdevel.elsbeth.evaluators.Evaluators;
 public interface Content {
 
     /**
-     * @return {@link String}
+     * @param match
+     *            {@link Match}
+     * @return {@link EvaluationResult}
      */
-    String getStringRepresentation();
+    EvaluationResult evaluate(Evaluators evaluators, Match match)
+	    throws EvaluationException;
 
     /**
      * @return {@link Source} the source this content is coming from.
@@ -30,18 +33,9 @@ public interface Content {
     Source getSource();
 
     /**
-     * @param doc
-     *            {@link Document}
+     * @return {@link String}
      */
-    void storeInLuceneDocument(Document doc);
-
-    /**
-     * @param match
-     *            {@link Match}
-     * @return {@link EvaluationResult}
-     */
-    EvaluationResult evaluate(Evaluators evaluators, Match match)
-	    throws EvaluationException;
+    String getStringRepresentation();
 
     /**
      * @return {@link LinkedList<MixedPatternExpression>} the thats.
@@ -52,6 +46,12 @@ public interface Content {
      * @return {@link LinkedList<String>} the topics.
      */
     LinkedList<String> getTopics();
+
+    /**
+     * @param doc
+     *            {@link Document}
+     */
+    void storeInLuceneDocument(Document doc);
 }
 //
 // $Log: $

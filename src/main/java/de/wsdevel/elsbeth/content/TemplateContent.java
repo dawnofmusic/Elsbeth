@@ -8,8 +8,8 @@ import de.wsdevel.elsbeth.Brain;
 import de.wsdevel.elsbeth.Match;
 import de.wsdevel.elsbeth.aiml.AimlTags;
 import de.wsdevel.elsbeth.evaluators.EvaluationException;
-import de.wsdevel.elsbeth.evaluators.EvaluationResult;
 import de.wsdevel.elsbeth.evaluators.Evaluators;
+import de.wsdevel.elsbeth.evaluators.result.EvaluationResult;
 
 /**
  * Created on 01.11.2010 for project: Elsbeth. (c) 2010, Sebastian A. Weiss -
@@ -45,6 +45,7 @@ public class TemplateContent extends AbstractContent implements Content {
      * @see de.wsdevel.elsbeth.content.Content#evaluate(org.scenejo.elsbeth.evaluators.Evaluators,
      *      org.scenejo.elsbeth.Match)
      */
+    @Override
     public final EvaluationResult evaluate(final Evaluators evaluators,
 	    final Match match) throws EvaluationException {
 	return evaluators.evaluate(getTemplate(), AimlTags.TEMPLATE, match);
@@ -54,6 +55,7 @@ public class TemplateContent extends AbstractContent implements Content {
      * @return {@link String}
      * @see de.wsdevel.elsbeth.content.Content#getStringRepresentation()
      */
+    @Override
     public final String getStringRepresentation() {
 	return getTemplate() != null ? getTemplate().xmlText() : "";
     }
@@ -79,6 +81,7 @@ public class TemplateContent extends AbstractContent implements Content {
      *            {@link Document}
      * @see de.wsdevel.elsbeth.content.Content#storeInLuceneDocument(org.apache.lucene.document.Document)
      */
+    @Override
     public final void storeInLuceneDocument(final Document doc) {
 	doc.add(new Field(Brain.LUCENE_FIELD_NAME_CONTENT_TEMPLATE,
 		getStringRepresentation(), Field.Store.YES,

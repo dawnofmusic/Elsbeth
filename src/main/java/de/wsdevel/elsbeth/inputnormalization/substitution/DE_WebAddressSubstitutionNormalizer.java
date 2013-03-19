@@ -28,6 +28,7 @@ public class DE_WebAddressSubstitutionNormalizer implements InputNormalizer {
      * @return {@link String}[]
      * @see de.wsdevel.elsbeth.inputnormalization.InputNormalizer#normalizeInput(java.lang.String[])
      */
+    @Override
     public Collection<String> normalizeInput(final Collection<String> input) {
 	return UK_US_WebAddressSubstitutionNormalizer.normalizeInput(input,
 		"PUNKT", "MINUS", "PORT");

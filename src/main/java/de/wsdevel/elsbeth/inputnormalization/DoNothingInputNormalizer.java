@@ -3,7 +3,6 @@ package de.wsdevel.elsbeth.inputnormalization;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
 /**
  * DoNothingInputNormalizer created on 22.10.2011 in project Elsbeth.
  * 
@@ -28,7 +27,8 @@ public class DoNothingInputNormalizer implements InputNormalizer {
      * @return {@link String}
      * @see de.wsdevel.elsbeth.inputnormalization.InputNormalizer#normalizeInput(java.lang.String[])
      */
-    public Collection<String> normalizeInput(Collection<String> input) {
+    @Override
+    public Collection<String> normalizeInput(final Collection<String> input) {
 	return new ArrayList<String>(input);
     }
 

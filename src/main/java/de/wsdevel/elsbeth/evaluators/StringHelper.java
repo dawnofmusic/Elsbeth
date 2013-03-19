@@ -1,18 +1,12 @@
 package de.wsdevel.elsbeth.evaluators;
 
 /**
- * Created on 15.08.2008.
+ * Created on 15.08.2008 for project: Elsbeth
  * 
- * for project: Elsbeth
+ * (c) 2007, Sebastian A. Weiss - All rights reserved.
  * 
- * @author <a href="mailto:sweiss@weissundschmidt.de">Sebastian A. Weiss - Weiss
- *         und Schmidt, Mediale Systeme GbR</a>
+ * @author <a href="mailto:post@sebastian-weiss.de">Sebastian A. Weiss</a>
  * @version $Author: $ -- $Revision: $ -- $Date: $
- * 
- * <br>
- *          (c) 2007, Weiss und Schmidt, Mediale Systeme GbR - All rights
- *          reserved.
- * 
  */
 public final class StringHelper {
 
@@ -44,20 +38,20 @@ public final class StringHelper {
 	final String step1 = value.replaceAll("\\n", " ").replaceAll("\\r", "")
 		.replaceAll("\\t", "");
 
-	String step2 = "";
+	final StringBuffer step2 = new StringBuffer();
 	final String[] split = step1.split("\\s");
 	int succeededParts = 0;
 	for (final String element : split) {
 	    final String trim = element.trim();
 	    if (!trim.equals("")) {
 		if (succeededParts > 0) {
-		    step2 += " ";
+		    step2.append(" ");
 		}
-		step2 += trim;
+		step2.append(trim);
 		succeededParts++;
 	    }
 	}
-	return step2;
+	return step2.toString();
     }
 
     /**

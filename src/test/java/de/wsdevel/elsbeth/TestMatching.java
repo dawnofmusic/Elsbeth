@@ -46,7 +46,7 @@ public class TestMatching extends TestCase {
 	assertEquals(
 		"wrong response",
 		"H @@ LKJASD ASLKFDS @@ J @@ LKDF IS ASD @@ K @@ HSADKAS @@ L @@ KJDSAH DA @@",
-		this.da.getResponseForRequest(
+		this.da.getEvaluationResultForRequest(
 			"H lkjasd aslkfds J lkdf is asd K hsadkas L kjdsah da")
 			.getText());
     }
@@ -56,26 +56,26 @@ public class TestMatching extends TestCase {
      */
     public final void testStarWildcard() {
 	assertTrue("wrong response", !"A @@B@@ RESULT".equals(this.da
-		.getResponseForRequest("A B").getText()));
+		.getEvaluationResultForRequest("A B").getText()));
 	// assertEquals("wrong response", "A @@ B C D @@ RESULT", this.da
 	// .getResponseForRequest("A B C D"));
 	assertEquals(
 		"wrong response",
 		"* RESULT",
-		this.da.getResponseForRequest(
+		this.da.getEvaluationResultForRequest(
 			"kjhsda asdljkjasd asdlkjasd sadlkas dslkjdas")
 			.getText());
 	assertEquals(
 		"wrong response",
 		"* X Y Z RESULT",
-		this.da.getResponseForRequest(
+		this.da.getEvaluationResultForRequest(
 			"lksda asposd sakwqn doidqw jd opsda X Y Z").getText());
 	assertEquals("wrong response", "* X @@ AA BB CC @@ Z RESULT", this.da
-		.getResponseForRequest("jsadsdaj salkd kasd X aa bb cc Z")
+		.getEvaluationResultForRequest("jsadsdaj salkd kasd X aa bb cc Z")
 		.getText());
 	assertTrue(
 		"should have no response!",
-		!"* X * Z RESULT".equals(this.da.getResponseForRequest(
+		!"* X * Z RESULT".equals(this.da.getEvaluationResultForRequest(
 			"jsadsdaj salkd kasd X Z").getText()));
     }
 
@@ -85,10 +85,10 @@ public class TestMatching extends TestCase {
     public final void testThat() {
 	// trigger first response
 	assertEquals("wrong response", "THAT FIRST INPUT THAT", this.da
-		.getResponseForRequest("THAT FIRST INPUT").getText());
+		.getEvaluationResultForRequest("THAT FIRST INPUT").getText());
 	// trigger second response depending on that
 	assertEquals("wrong response", "I KNOW WHAT THAT MEANS", this.da
-		.getResponseForRequest("THAT SECOND INPUT").getText());
+		.getEvaluationResultForRequest("THAT SECOND INPUT").getText());
     }
 
     /**
@@ -96,15 +96,15 @@ public class TestMatching extends TestCase {
      */
     public final void testUnderscoreWildcard() {
 	assertEquals("wrong response", "A _ RESULT", this.da
-		.getResponseForRequest("A X").getText());
+		.getEvaluationResultForRequest("A X").getText());
 	assertEquals("wrong response", "A _ RESULT", this.da
-		.getResponseForRequest("A B").getText());
+		.getEvaluationResultForRequest("A B").getText());
 	assertEquals("wrong response", "A _ RESULT", this.da
-		.getResponseForRequest("A kjdajsf lksdkas").getText());
+		.getEvaluationResultForRequest("A kjdajsf lksdkas").getText());
 	assertEquals("wrong response", "A _ Z RESULT", this.da
-		.getResponseForRequest("A Y Z").getText());
+		.getEvaluationResultForRequest("A Y Z").getText());
 	assertEquals("wrong response", "A _ Z RESULT", this.da
-		.getResponseForRequest("A Y lkjle Z").getText());
+		.getEvaluationResultForRequest("A Y lkjle Z").getText());
     }
 
     /**
@@ -112,12 +112,12 @@ public class TestMatching extends TestCase {
      */
     public final void testWithoutWildcards() {
 	assertEquals("wrong response", "A RESULT", this.da
-		.getResponseForRequest("A").getText());
+		.getEvaluationResultForRequest("A").getText());
 	// next pattern may not match due to underscore wildcard in aiml.
 	assertTrue("wrong response", !"A B RESULT".equals(this.da
-		.getResponseForRequest("A B").getText()));
+		.getEvaluationResultForRequest("A B").getText()));
 	assertEquals("wrong response", "D E F RESULT", this.da
-		.getResponseForRequest("D E F").getText());
+		.getEvaluationResultForRequest("D E F").getText());
     }
 
     // SEBASTIAN test topics!!

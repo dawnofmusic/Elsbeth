@@ -29,6 +29,7 @@ public class PatterFittingInputNormalizer implements InputNormalizer {
      * @return {@link Collection}< {@link String}>
      * @see de.wsdevel.elsbeth.inputnormalization.InputNormalizer#normalizeInput(java.util.Collection)
      */
+    @Override
     public Collection<String> normalizeInput(final Collection<String> input) {
 	final LinkedList<String> result = new LinkedList<String>();
 	for (final String element : input) {

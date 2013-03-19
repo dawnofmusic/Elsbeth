@@ -20,12 +20,12 @@ public class SubstitutionNormalizerHelper {
      * @see de.wsdevel.elsbeth.inputnormalization.InputNormalizer#normalizeInput(java.lang.String)
      */
     public static Collection<String> normalizeInput(
-	    Substitution[] substitutions, Collection<String> input) {
-	ArrayList<String> output = new ArrayList<String>();
-	outer: for (String part : input) {
-	    for (Substitution subs : substitutions) {
+	    final Substitution[] substitutions, final Collection<String> input) {
+	final ArrayList<String> output = new ArrayList<String>();
+	outer: for (final String part : input) {
+	    for (final Substitution subs : substitutions) {
 		if (part.toUpperCase().equals(subs.getPattern().toUpperCase())) {
-		    for (String sub : subs.getSubstitution()) {
+		    for (final String sub : subs.getSubstitution()) {
 			output.add(sub);
 		    }
 		    continue outer;

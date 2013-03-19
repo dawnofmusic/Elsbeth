@@ -4,7 +4,6 @@ import java.util.LinkedList;
 
 import org.aitools.xaiml.MixedPatternExpression;
 
-
 /**
  * Created on 21.11.2010 for project: Elsbeth. (c) 2010, Sebastian A. Weiss -
  * All rights reserved.
@@ -63,6 +62,7 @@ public abstract class AbstractContent implements Content {
     /**
      * @return {@link Source} the source.
      */
+    @Override
     public final Source getSource() {
 	return this.source;
     }
@@ -70,6 +70,7 @@ public abstract class AbstractContent implements Content {
     /**
      * @return {@link LinkedList<MixedPatternExpression>} the thats.
      */
+    @Override
     public final LinkedList<MixedPatternExpression> getThats() {
 	return this.thats;
     }
@@ -77,6 +78,7 @@ public abstract class AbstractContent implements Content {
     /**
      * @return {@link LinkedList<String>} the topics.
      */
+    @Override
     public final LinkedList<String> getTopics() {
 	return this.topics;
     }

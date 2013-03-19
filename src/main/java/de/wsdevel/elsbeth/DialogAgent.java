@@ -1,6 +1,7 @@
 package de.wsdevel.elsbeth;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -16,25 +17,20 @@ import org.apache.commons.logging.LogFactory;
 import de.wsdevel.elsbeth.aiml.AimlTags;
 import de.wsdevel.elsbeth.aiml.Predicate;
 import de.wsdevel.elsbeth.evaluators.EvaluationException;
-import de.wsdevel.elsbeth.evaluators.EvaluationResult;
-import de.wsdevel.elsbeth.evaluators.EvaluationResultImpl;
 import de.wsdevel.elsbeth.evaluators.Evaluators;
+import de.wsdevel.elsbeth.evaluators.result.EvaluationResult;
+import de.wsdevel.elsbeth.evaluators.result.EvaluationResultImpl;
+import de.wsdevel.elsbeth.evaluators.result.PredicateOperation;
 import de.wsdevel.tools.awt.model.SetWithListModel;
 import de.wsdevel.tools.awt.model.SetWithListModelImpl;
 
 /**
- * Created on 15.08.2008.
+ * Created on 15.08.2008 for project: Elsbeth
  * 
- * for project: Elsbeth
+ * (c) 2007, Sebastian A. Weiss - All rights reserved.
  * 
- * @author <a href="mailto:sweiss@weissundschmidt.de">Sebastian A. Weiss - Weiss
- *         und Schmidt, Mediale Systeme GbR</a>
+ * @author <a href="mailto:post@sebastian-weiss.de">Sebastian A. Weiss</a>
  * @version $Author: $ -- $Revision: $ -- $Date: $
- * 
- * <br>
- *          (c) 2007, Weiss und Schmidt, Mediale Systeme GbR - All rights
- *          reserved.
- * 
  */
 public class DialogAgent implements PredicateHolder {
 
@@ -189,8 +185,8 @@ public class DialogAgent implements PredicateHolder {
 			.trim() : null);
 		// SCENEJO
 		// impl.setChangeScene(evaluate.getChangeScene());
-		// impl.getPredicateOperations().addAll(
-		// evaluate.getPredicateOperations());
+		impl.getPredicateOperations().addAll(
+			evaluate.getPredicateOperations());
 		impl.setOriginMatch(match);
 		if (DialogAgent.LOG.isDebugEnabled()) {
 		    DialogAgent.LOG.debug("response: " + impl);
@@ -201,6 +197,19 @@ public class DialogAgent implements PredicateHolder {
 	    }
 	}
 	return Evaluators.EMPTY_EVALUATION_RESULT;
+    }
+
+    /**
+     * @param responseForRequest
+     *            {@link EvaluationResult}
+     */
+    public void executePreicateOperationsOnSelectedEvaluationResult(
+	    final EvaluationResult responseForRequest) {
+	final Collection<? extends PredicateOperation> predicateOperations = responseForRequest
+		.getPredicateOperations();
+	for (final PredicateOperation po : predicateOperations) {
+	    po.execute(this);
+	}
     }
 
     /**
@@ -240,6 +249,40 @@ public class DialogAgent implements PredicateHolder {
     }
 
     /**
+     * COMMENT.
+     * 
+     * @param request
+     *            {@link String}
+     * @return {@link EvaluationResult}
+     */
+    public final EvaluationResult getEvaluationResultForRequest(
+	    final String request) {
+	setPredicateValue(DialogAgent.PREDICATE_NAME_RANDOM_PER_TURN,
+		Integer.toString(this.randomGenerator
+			.nextInt(DialogAgent.MAX_NUMBER_RANDOM_VALUES)));
+
+	final List<Match> matchesForRequest = getMatchesForRequest(request);
+	if (DialogAgent.LOG.isDebugEnabled()) {
+	    DialogAgent.LOG.debug("### MATCHES");
+
+	}
+	for (final Match match : matchesForRequest) {
+	    if (DialogAgent.LOG.isDebugEnabled()) {
+		DialogAgent.LOG.debug(match);
+	    }
+	}
+	if (matchesForRequest.size() > 0) {
+	    // match at position 0 has the best score, list was sorted by brain
+	    // (20130319 saw)
+	    final EvaluationResult evaluate = evaluate(matchesForRequest.get(0));
+	    setCurrentThat(evaluate.getText() != null ? evaluate.getText() : "");
+	    return evaluate;
+	}
+	setCurrentThat("");
+	return Evaluators.EMPTY_EVALUATION_RESULT;
+    }
+
+    /**
      * @return {@link ListModel}
      */
     public final ListModel getListModelOverCurrentPredicates() {
@@ -272,40 +315,21 @@ public class DialogAgent implements PredicateHolder {
     }
 
     /**
-     * COMMENT.
-     * 
      * @param request
      *            {@link String}
      * @return {@link String}
      */
-    public final EvaluationResult getResponseForRequest(final String request) {
-	setPredicateValue(DialogAgent.PREDICATE_NAME_RANDOM_PER_TURN,
-		Integer.toString(this.randomGenerator
-			.nextInt(DialogAgent.MAX_NUMBER_RANDOM_VALUES)));
-
-	final List<Match> matchesForRequest = getMatchesForRequest(request);
-	if (DialogAgent.LOG.isDebugEnabled()) {
-	    DialogAgent.LOG.debug("### MATCHES");
-
-	}
-	for (final Match match : matchesForRequest) {
-	    if (DialogAgent.LOG.isDebugEnabled()) {
-		DialogAgent.LOG.debug(match);
-	    }
-	}
-	// SEBASTIAN here we have to decide which one we want to use!
-	if (matchesForRequest.size() > 0) {
-	    final EvaluationResult evaluate = evaluate(matchesForRequest.get(0));
-	    setCurrentThat(evaluate.getText() != null ? evaluate.getText() : "");
-	    return evaluate;
-	}
-	setCurrentThat("");
-	return Evaluators.EMPTY_EVALUATION_RESULT;
+    public String getResponseForRequest(final String request) {
+	final EvaluationResult responseForRequest = getEvaluationResultForRequest(request);
+	executePreicateOperationsOnSelectedEvaluationResult(responseForRequest);
+	final String text = responseForRequest.getText();
+	return text;
     }
 
     /**
      * @see org.scenejo.elsbeth.expressions.PredicateHolder#getValueForPredicateName(java.lang.String)
      */
+    @Override
     public final String getValueForPredicateName(final String predicateName) {
 	return getPredicateValue(predicateName);
     }

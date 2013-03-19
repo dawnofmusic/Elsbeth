@@ -40,8 +40,8 @@ import de.wsdevel.elsbeth.content.Content;
 import de.wsdevel.elsbeth.content.Source;
 import de.wsdevel.elsbeth.content.TemplateContent;
 import de.wsdevel.elsbeth.evaluators.EvaluationException;
-import de.wsdevel.elsbeth.evaluators.EvaluationResult;
 import de.wsdevel.elsbeth.evaluators.Evaluators;
+import de.wsdevel.elsbeth.evaluators.result.EvaluationResult;
 import de.wsdevel.elsbeth.inputnormalization.InputNormalizationService;
 import de.wsdevel.elsbeth.inputnormalization.patternfitting.InvalidCharacters;
 
@@ -49,15 +49,17 @@ import de.wsdevel.elsbeth.inputnormalization.patternfitting.InvalidCharacters;
  * Created on 17.09.2008.
  * 
  * for project: Elsbeth <br>
- * (c) 2007, Weiss und Schmidt, Mediale Systeme GbR - All rights reserved.
+ * (c) 2007, Sebastian A. Weiss - All rights reserved.
  * 
- * @author <a href="mailto:sweiss@weissundschmidt.de">Sebastian A. Weiss - Weiss
- *         und Schmidt, Mediale Systeme GbR</a>
+ * @author <a href="mailto:post@sebastian-weiss.de">Sebastian A. Weisss</a>
  * @version $Author: $ -- $Revision: $ -- $Date: $
  * 
  */
 public class Brain {
 
+    /**
+     * {@link MatchComparator} the comparator used for Matches
+     */
     private static final MatchComparator MATCH_COMPARATOR = new MatchComparator();
 
     /**
@@ -333,7 +335,7 @@ public class Brain {
 
 	final List<String> pathFromRoot = node.createPathFromRoot();
 
-	if (currentTopic != null && !currentTopic.trim().equals("")) {
+	if ((currentTopic != null) && !currentTopic.trim().equals("")) {
 	    for (final Content content : node.getContents()) {
 		final LinkedList<String> topics = content.getTopics();
 		final Match match = createMatchForContent(capturedWords,
@@ -503,12 +505,12 @@ public class Brain {
      * @return {@link String}
      */
     private String getPlainRest(final LinkedList<String> rest) {
-	String plain = "";
+	final StringBuffer plain = new StringBuffer();
 	final Iterator<String> iterator = rest.iterator();
 	while (iterator.hasNext()) {
-	    plain += " " + iterator.next();
+	    plain.append(" " + iterator.next());
 	}
-	return plain;
+	return plain.toString();
     }
 
     /**
@@ -561,7 +563,7 @@ public class Brain {
      *            {@link File}
      */
     public boolean load(final File doc, final boolean overwrite) {
-	if (doc == null || !doc.exists()) {
+	if ((doc == null) || !doc.exists()) {
 	    Brain.LOG.error("file is null or does not exist ["
 		    + (doc != null ? doc.getAbsolutePath() : null) + "].");
 	    return false;
@@ -696,7 +698,7 @@ public class Brain {
 
 	final TemplateContent content = new TemplateContent(new Source(source),
 		category.getTemplate());
-	if (topic != null && !topic.trim().equals("")) {
+	if ((topic != null) && !topic.trim().equals("")) {
 	    content.addTopic(topic);
 	}
 	final MixedPatternExpression that = category.getThat();
@@ -753,9 +755,9 @@ public class Brain {
 
 	    BrainNode result = tryUnderscore(currentNode, word, rest,
 		    capturedWords);
-	    if (result == null || result.getContents().isEmpty()) {
+	    if ((result == null) || result.getContents().isEmpty()) {
 		result = tryWord(currentNode, word, rest, capturedWords);
-		if (result == null || result.getContents().isEmpty()) {
+		if ((result == null) || result.getContents().isEmpty()) {
 		    result = tryStar(currentNode, word, rest, capturedWords);
 		}
 	    }
@@ -933,10 +935,14 @@ public class Brain {
      * COMMENT.
      * 
      * @param currentNode
+     *            {@link BrainNode}
      * @param word
+     *            {@link String}
      * @param rest
+     *            {@link LinkedList}< {@link String}>
      * @param capturedWords
-     * @return
+     *            {@link List}< {@link String}>
+     * @return {@link BrainNode}
      */
     private BrainNode tryStar(final BrainNode currentNode, final String word,
 	    final LinkedList<String> rest, final List<String> capturedWords) {
@@ -947,10 +953,14 @@ public class Brain {
      * COMMENT.
      * 
      * @param currentNode
+     *            {@link BrainNode}
      * @param word
+     *            {@link String}
      * @param rest
+     *            {@link LinkedList}< {@link String}>
      * @param capturedWords
-     * @return
+     *            {@link List}< {@link String}>
+     * @return {@link BrainNode}
      */
     private BrainNode tryUnderscore(final BrainNode currentNode,
 	    final String word, final LinkedList<String> rest,
@@ -975,18 +985,18 @@ public class Brain {
 	final BrainNode nextNode = currentNode.getNextNodeForWord(wildcard);
 	if (nextNode != null) {
 	    if (nextNode.hasChildren()) {
-		String captured = word;
+		final StringBuffer captured = new StringBuffer(word);
 		final LinkedList<String> restCopy = new LinkedList<String>(rest);
 		while (restCopy.size() > 0) {
 		    final BrainNode match = match(restCopy, nextNode,
 			    capturedWords);
 		    if (match != null) {
-			capturedWords.add(captured);
+			capturedWords.add(captured.toString());
 			return match;
 		    }
-		    captured += " " + restCopy.removeFirst();
+		    captured.append(" " + restCopy.removeFirst());
 		}
-		capturedWords.add(captured);
+		capturedWords.add(captured.toString());
 		return nextNode;
 	    }
 	    capturedWords.add(word + getPlainRest(rest));

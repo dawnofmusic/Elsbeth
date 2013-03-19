@@ -12,10 +12,9 @@ import java.io.File;
 public class Source {
 
     /**
-     * Default constructor.
+     * {@link File} COMMENT.
      */
-    public Source() {
-    }
+    private String fileName;
 
     // SCENEJO
     // /**
@@ -29,14 +28,15 @@ public class Source {
     /**
      * Default constructor.
      */
-    public Source(final String fileNameVal) {
-	setFileName(fileNameVal);
+    public Source() {
     }
 
     /**
-     * {@link File} COMMENT.
+     * Default constructor.
      */
-    private String fileName;
+    public Source(final String fileNameVal) {
+	setFileName(fileNameVal);
+    }
 
     // SCENEJO
     // /**

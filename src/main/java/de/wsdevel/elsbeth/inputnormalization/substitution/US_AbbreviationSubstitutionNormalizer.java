@@ -92,9 +92,9 @@ public class US_AbbreviationSubstitutionNormalizer implements InputNormalizer {
      * @return {@link String}[]
      * @see de.wsdevel.elsbeth.inputnormalization.InputNormalizer#normalizeInput(java.lang.String[])
      */
-    public Collection<String> normalizeInput(Collection<String> input) {
-	return SubstitutionNormalizerHelper
-		.normalizeInput(substitutions, input);
+    public Collection<String> normalizeInput(final Collection<String> input) {
+	return SubstitutionNormalizerHelper.normalizeInput(
+		US_AbbreviationSubstitutionNormalizer.substitutions, input);
     }
 
 }

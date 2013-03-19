@@ -37,6 +37,7 @@ public class PredicateWatcherSupport {
      */
     public final void fireWatchPredicate(final Predicate predicate) {
 	this.watchers.observe(new ObserverList.Action<PredicateWatcher>() {
+	    @Override
 	    public void doit(final PredicateWatcher arg0) {
 		arg0.watch(predicate);
 	    }

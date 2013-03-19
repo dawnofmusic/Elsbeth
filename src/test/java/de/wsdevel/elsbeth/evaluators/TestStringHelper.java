@@ -1,6 +1,5 @@
 package de.wsdevel.elsbeth.evaluators;
 
-import de.wsdevel.elsbeth.evaluators.StringHelper;
 import junit.framework.TestCase;
 
 /**
